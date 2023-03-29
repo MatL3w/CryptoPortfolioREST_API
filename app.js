@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 
 //project modules
-import * as feedRouter from './routes/feed.js';
+import * as authRouter from './routes/auth.js';
 import * as config from './config.js';
 
 
@@ -13,7 +13,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use(feedRouter.router);
+app.use(authRouter.router);
 
 mongoose.set("strictQuery", true);
 mongoose
