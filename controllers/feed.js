@@ -1,13 +1,15 @@
 import User from "../Models/user.js"
 
 export const editAsset = async(req,res,next)=>{
-    const email = req.body.email;
+    const userId = req.userId;
+    console.log(userId);
     const assetNameTag =req.body.assetNameTag;
     const assetQuantity =parseFloat(req.body.assetQuantity);
     let user;
     try{
-        user = await User.findOne({email:email})
+        user = await User.findOne({_id:userId})
         if(!user){
+            console.log('lol');
             return;
         }
         const assetExistIndex = user.asset.findIndex(ele=>ele.nameTag === assetNameTag);
@@ -34,11 +36,11 @@ export const editAsset = async(req,res,next)=>{
     }
 }
 export const deleteAsset = async(req,res,next)=>{
-    const email = req.body.email;
+    const userId = req.userId;
     const assetNameTag = req.body.assetNameTag;
     let user;
     try {
-        user = await User.findOne({ email: email });
+        user = await User.findOne({ _id:userId });
         if (!user) {
             return;
         }
