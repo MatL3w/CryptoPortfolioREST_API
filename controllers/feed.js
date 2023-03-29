@@ -8,7 +8,7 @@ export const helloWorld= (req,res, next)=>{
         hello:'world'
     })
 }
-export const addUser = async (req,res,next)=>{
+export const signup = async (req,res,next)=>{
     if(!req.body){
         return ;
     }
@@ -29,4 +29,20 @@ export const addUser = async (req,res,next)=>{
     catch(err){
         next(err);
     }
+}
+export const signin = async(req,res,next)=>{
+    const email = req.body.email;
+    const password = req.body.password;
+    try{
+        const user = await User.findOne({email:email});
+        if(!user){
+            return ;
+        }
+        const passwordCheck = await bcrypt.compare(password,user.password);
+        if(!passwordCheck){
+            return;
+        }
+        
+    }
+    
 }
