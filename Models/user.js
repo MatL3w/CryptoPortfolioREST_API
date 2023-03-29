@@ -10,6 +10,30 @@ const dataSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  address: {
+    type: String,
+  },
+  tvl: {
+    type: Number,
+  },
+  category: {
+    type: String,
+  },
+  symbol: {
+    type: String,
+  },
+  logo: {
+    type: String,
+  },
+  url: {
+    type: String,
+  },
+  mcap: {
+    type: Number,
+  },
+  price: {
+    type: Number,
+  },
 });
 
 const userSchema = new mongoose.Schema({

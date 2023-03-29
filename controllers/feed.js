@@ -15,8 +15,8 @@ export const editAsset = async(req,res,next)=>{
         const assetExistIndex = user.asset.findIndex(ele=>ele.nameTag === assetNameTag);
         if(assetExistIndex === -1){
             user.asset.push({
-                nameTag: assetNameTag,
-                quantity: assetQuantity,
+              nameTag: assetNameTag,
+              quantity: assetQuantity,
             });
             await user.save();
             res.status(201).json({ message: "Asset added", userId: user._id });
