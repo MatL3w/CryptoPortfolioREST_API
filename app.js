@@ -1,9 +1,8 @@
 import express from "express";
+import feedRouter from './routes/feed.js';
 
 const app = express();
 
-app.use('/',( req, res, next) => {
-  console.log('hello world');
-});
+app.use(feedRouter.router);
 
 app.listen(3000);
