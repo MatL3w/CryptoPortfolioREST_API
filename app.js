@@ -12,6 +12,7 @@ import * as config from './config.js';
 const app = express();
 
 app.use(bodyParser.json());
+
 app.use(feedRouter.router);
 
 mongoose.set("strictQuery", true);
