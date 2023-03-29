@@ -1,0 +1,30 @@
+{
+  "name": "cryptoportfoliorest_api",
+  "version": "1.0.0",
+  "description": "REST API server to managing cryptocurrency asset protfolio",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatL3w/CryptoPortfolioREST_API.git"
+  },
+  "keywords": [
+    "REST",
+    "Cryptocurrency"
+  ],
+  "author": "Mateusz L.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MatL3w/CryptoPortfolioREST_API/issues"
+  },
+  "homepage": "https://github.com/MatL3w/CryptoPortfolioREST_API#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
