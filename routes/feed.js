@@ -1,10 +1,10 @@
 import {Router} from "express";
-import feedController from '../controllers/feed.js';
+import * as feedController from '../controllers/feed.js';
 
-const router = Router();
+export const router = Router();
 
 router.get('/',feedController.helloWorld);
 
-//router.get("/", feedController.helloWorld);
+router.post("/addUser", feedController.addUser);
 
-export default {router};
+
