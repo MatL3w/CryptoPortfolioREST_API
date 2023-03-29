@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
+import  jwt from 'jsonwebtoken';
 
 import User from '../Models/user.js';
+import * as config from '../config.js';
 
 export const helloWorld= (req,res, next)=>{
     console.log("hello world");
@@ -42,7 +44,20 @@ export const signin = async(req,res,next)=>{
         if(!passwordCheck){
             return;
         }
-        
+        const token = jwt.sign(
+            {
+                email: user.email,
+                userId: user._id,
+            },
+            config.JWT_SECRET,
+            {
+                expiresIn:config.JWT_EXPIRES_TIME
+            }
+        )
+        res.status(200).json({ token: token, userId: user._id.toString() });
+    }
+    catch(err){
+        next(err);
     }
     
 }

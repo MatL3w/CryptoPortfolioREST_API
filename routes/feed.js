@@ -5,6 +5,8 @@ export const router = Router();
 
 router.get('/',feedController.helloWorld);
 
-router.post("/addUser", feedController.signup);
+router.post("/signup", feedController.signup);
+
+router.post('/signin',feedController.signin);
 
 
