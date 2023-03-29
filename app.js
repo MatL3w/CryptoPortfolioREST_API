@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 
 //project modules
 import * as authRouter from './routes/auth.js';
+import * as feedRouter from "./routes/feed.js";
 import * as config from './config.js';
 
 
@@ -14,6 +15,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(authRouter.router);
+app.use(feedRouter.router);
 
 mongoose.set("strictQuery", true);
 mongoose
