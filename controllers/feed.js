@@ -30,6 +30,28 @@ export const editAsset = async(req,res,next)=>{
 
     }
     catch(err){
-
+        next(err);
+    }
+}
+export const deleteAsset = async(req,res,next)=>{
+    const email = req.body.email;
+    const assetNameTag = req.body.assetNameTag;
+    let user;
+    try {
+      user = await User.findOne({ email: email });
+      if (!user) {
+        return;
+      }
+      const assetExistIndex = user.asset.findIndex((ele) => ele.nameTag === assetNameTag);
+      if (assetExistIndex === -1) {
+        res.status(422).json({ message: "There is no such asset!", userId: user._id });
+      } 
+      else {
+        user.asset.pull(user.asset[assetExistIndex]._id)
+        await user.save();
+        res.status(201).json({ message: "Asset deleted", userId: user._id });
+      }
+    } catch (err) {
+      next(err);
     }
 }

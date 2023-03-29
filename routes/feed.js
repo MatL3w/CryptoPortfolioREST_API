@@ -4,3 +4,5 @@ import * as feedController from "../controllers/feed.js";
 export const router = Router();
 
 router.post("/editasset", feedController.editAsset);
+
+router.delete('/deleteasset',feedController.deleteAsset);
