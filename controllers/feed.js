@@ -8,7 +8,6 @@ export const editAsset = async(req,res,next)=>{
     let user;
     let tokenInfo;
     try{
-
         user = await User.findOne({_id:userId})
         tokenInfo = await util.getTokenInfo(assetNameTag);
         if(!user){
@@ -27,10 +26,13 @@ export const editAsset = async(req,res,next)=>{
             res.status(201).json({ message: "Asset added", userId: user._id });
         }
         else{
-            user.asset.splice(assetExistIndex, 1, {
-              nameTag: assetNameTag,
-              quantity: assetQuantity,
-            });
+            user.asset.splice(assetExistIndex,1,Object.assign({},
+                {
+                  nameTag: assetNameTag,
+                  quantity: assetQuantity,
+                },
+                tokenInfo
+            ));
             await user.save();
             res.status(201).json({ message: "Asset edited", userId: user._id });
         }
