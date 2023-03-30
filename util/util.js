@@ -48,6 +48,6 @@ export const getTokenInfo = async (name)=>{
         const key = Object.keys(data.coins)[0];
         crypto.price = data.coins[key].price;
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {});
     return crypto;
 };

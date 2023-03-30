@@ -2,9 +2,25 @@ import User from "../Models/user.js"
 import * as util from '../util/util.js'
 
 export const editAsset = async(req,res,next)=>{
+
     const userId = req.userId;
     const assetNameTag =req.body.assetNameTag;
-    const assetQuantity =parseFloat(req.body.assetQuantity);
+    const assetQuantity = parseFloat(req.body.assetQuantity);
+    console.log(assetNameTag);
+    console.log(assetQuantity);
+    console.log(userId);
+    try{
+        if (!(userId && assetNameTag && assetQuantity)) {
+        const error = new Error("wrong input data");
+        error.statusCode = 422;
+        console.log("go to error");
+        throw error;
+        }
+    }
+    catch(err){
+        next(err);
+        return;
+    }
     let user;
     let tokenInfo;
     let completeTokenInfo;
@@ -22,10 +38,6 @@ export const editAsset = async(req,res,next)=>{
                 totalValue: assetQuantity * parseFloat(tokenInfo.price),
             }
         );
-        if(!user){
-            console.log('lol');
-            return;
-        }
         const assetExistIndex = user.asset.findIndex(ele=>ele.nameTag === assetNameTag);
         if(assetExistIndex === -1){
             user.asset.push(completeTokenInfo);
@@ -45,7 +57,13 @@ export const editAsset = async(req,res,next)=>{
 }
 export const deleteAsset = async(req,res,next)=>{
     const userId = req.userId;
-    const assetNameTag = req.body.assetNameTag.toLowerCase();
+    let assetNameTag = req.body.assetNameTag;
+    if(!(userId && assetNameTag)){
+        const error = new Error('wrong input data');
+        error.statusCode=422;
+        throw error;
+    }
+    assetNameTag = assetNameTag.toLowercase();
     let user;
     let assetExistIndex;
     try {
