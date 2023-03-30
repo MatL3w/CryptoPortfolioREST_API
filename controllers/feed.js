@@ -106,3 +106,51 @@ export const getAssets = async(req,res,next)=>{
         return;
     }
 }
+export const getAsset = async(req,res,next)=>{
+    const userId = req.userId;
+    let assetNameTag = req.body.assetNameTag;
+    try{
+        if(!(userId && assetNameTag)){
+            const error = new Error('wrong input get asset');
+            error.statusCode=422;
+            throw error;
+        }
+    }
+    catch(err){
+        err.statusCode = 422;
+        console.log(err);
+        next(err);
+        return;
+    }
+    assetNameTag = assetNameTag.toLowerCase();
+    let user;
+    let tokenInfo;
+    let asset;
+    let assetIndex;
+    try {
+        user = await User.findOne({ _id: userId });
+        assetIndex = user.assets.findIndex((ele) => ele.nameTag.toLowerCase() === assetNameTag);
+        if(assetIndex === -1){
+            assetIndex = user.assets.findIndex((ele) => ele.symbol.toLowerCase() === assetNameTag);
+        }
+        if (assetIndex === -1) {
+          assetIndex = user.assets.findIndex((ele) => ele.name.toLowerCase() === assetNameTag);
+        }
+        if(assetIndex === -1){
+            const error = new Error("Asset don't exist!");
+            error.statusCode = 422;
+            throw error;
+        }
+        else{
+            tokenInfo = await util.getTokenInfo(user.assets[assetIndex].name,user.assets[assetIndex].quantity);
+            user.assets.splice(assetIndex, 1, tokenInfo);
+            await user.save();
+            res.status(201).json({ asset: user.assets[assetIndex], userId: user._id });
+        }
+    }
+    catch (err) {
+        if(!err.statusCode)err.statusCode = 422;
+        next(err);
+        return;
+    }
+}

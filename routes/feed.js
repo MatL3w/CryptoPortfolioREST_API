@@ -9,3 +9,5 @@ router.post("/upsertasset",Authentication.isAuth, feedController.upsertAsset);
 router.delete('/deleteasset',Authentication.isAuth, feedController.deleteAsset);
 
 router.get("/getassets", Authentication.isAuth, feedController.getAssets);
+
+router.get("/getasset", Authentication.isAuth, feedController.getAsset);
