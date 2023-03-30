@@ -10,6 +10,9 @@ const dataSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  name: {
+    type: String,
+  },
   address: {
     type: String,
   },

@@ -1,23 +1,28 @@
 import User from "../Models/user.js"
+import * as util from '../util/util.js'
 
 export const editAsset = async(req,res,next)=>{
     const userId = req.userId;
-    console.log(userId);
     const assetNameTag =req.body.assetNameTag;
     const assetQuantity =parseFloat(req.body.assetQuantity);
     let user;
+    let tokenInfo;
     try{
+
         user = await User.findOne({_id:userId})
+        crypto = await util.getTokenInfo(assetNameTag);
         if(!user){
             console.log('lol');
             return;
         }
         const assetExistIndex = user.asset.findIndex(ele=>ele.nameTag === assetNameTag);
         if(assetExistIndex === -1){
-            user.asset.push({
-              nameTag: assetNameTag,
-              quantity: assetQuantity,
-            });
+            user.asset.push(Object.assign({},
+                {
+                    nameTag: assetNameTag,
+                    quantity: assetQuantity,
+                },
+                tokenInfo,));
             await user.save();
             res.status(201).json({ message: "Asset added", userId: user._id });
         }

@@ -1,7 +1,7 @@
 
 const crypto = {
 };
-
+let found;
 fetch("https://api.llama.fi/protocols", {
   method: "GET",
   headers: {
@@ -10,18 +10,23 @@ fetch("https://api.llama.fi/protocols", {
 })
 .then((result) => result.json())
 .then((data) => {
-    const found = data.find(ele=>{
-        return ele.name === "QiDao";
+        found = data.find(ele=>{
+        return ele.name.toLowerCase() === "uni";
     })
+    if(!found){
+        found = data.find((ele) => {
+        return ele.symbol.toLowerCase() === "uni";
+        });
+    }
     console.log(found);
-    crypto.address=found.address;
+    crypto.address = found.address.includes(":") ? found.address : "ethereum:" + found.address;
     crypto.tvl = found.tvl;
     crypto.category = found.category;
     crypto.symbol = found.symbol;
     crypto.logo = found.logo;
     crypto.url = found.url;
     crypto.mcap =found.mcap;
-    return fetch(`https://coins.llama.fi/prices/current/${found.address}`,{
+    return fetch(`https://coins.llama.fi/prices/current/${crypto.address}`,{
       method: "GET",
       headers: {
         "Content-Type": "application/json",
