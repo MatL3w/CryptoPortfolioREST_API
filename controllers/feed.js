@@ -21,21 +21,17 @@ export const upsertAsset = async(req,res,next)=>{
     try{
         user = await User.findOne({_id:userId});
         tokenInfo = await util.getTokenInfo(assetNameTag,assetQuantity);
-        console.log(tokenInfo);
-        let assetExistIndex = user.asset.findIndex(ele=>ele.nameTag === assetNameTag);
+        let assetExistIndex = user.assets.findIndex((ele) => ele.name === tokenInfo.name);
         if(assetExistIndex === -1){
-            assetExistIndex = user.asset.findIndex((ele) => ele.name.toLocaleLowerCase() === assetNameTag);
+            assetExistIndex = user.assets.findIndex((ele) => ele.symbol === tokenInfo.symbol);
         }
         if(assetExistIndex === -1){
-            assetExistIndex = user.asset.findIndex((ele) => ele.symbol.toLocaleLowerCase() === assetNameTag);
-        }
-        if(assetExistIndex === -1){
-            user.asset.push(tokenInfo);
+            user.assets.push(tokenInfo);
             await user.save();
             res.status(201).json({ message: "Asset added", userId: user._id });
         }
         else{
-            user.asset.splice(assetExistIndex, 1, tokenInfo);
+            user.assets.splice(assetExistIndex, 1, tokenInfo);
             await user.save();
             res.status(201).json({ message: "Asset edited", userId: user._id });
         }
@@ -69,18 +65,18 @@ export const deleteAsset = async(req,res,next)=>{
         if (!user) {
             return;
         }
-        assetExistIndex = user.asset.findIndex((ele) => ele.nameTag === assetNameTag);
+        assetExistIndex = user.assets.findIndex((ele) => ele.nameTag === assetNameTag);
         if(assetExistIndex === -1){
-            assetExistIndex = user.asset.findIndex((ele) => ele.name.toLocaleLowerCase() === assetNameTag);
+            assetExistIndex = user.assets.findIndex((ele) => ele.name.toLocaleLowerCase() === assetNameTag);
         }
         if(assetExistIndex === -1){
-            assetExistIndex = user.asset.findIndex((ele) => ele.symbol.toLocaleLowerCase() === assetNameTag);
+            assetExistIndex = user.assets.findIndex((ele) => ele.symbol.toLocaleLowerCase() === assetNameTag);
         }
         if (assetExistIndex === -1) {
             res.status(422).json({ message: "There is no such asset!", userId: user._id });
         } 
         else {
-            user.asset.pull(user.asset[assetExistIndex]._id)
+            user.assets.pull(user.assets[assetExistIndex]._id)
             await user.save();
             res.status(201).json({ message: "Asset deleted", userId: user._id });
         }
@@ -96,7 +92,13 @@ export const getAssets = async(req,res,next)=>{
     let user;
     try{
         user =await User.findOne({_id:userId});
-        console.log(user.asset);
+        let tokenInfo;
+        for(let i =0;i<user.assets.length;i++){
+            tokenInfo = await util.getTokenInfo(user.assets[i].name, user.assets[i].quantity);
+            user.assets.splice(i, 1, tokenInfo);
+        }
+        await user.save();
+        res.status(201).json({ assets: user.assets, userId: user._id });
     }
     catch(err){
         console.log(err);
