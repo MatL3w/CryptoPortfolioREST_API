@@ -2,13 +2,12 @@ import User from "../Models/user.js"
 import * as util from '../util/util.js'
 
 export const editAsset = async(req,res,next)=>{
-
     const userId = req.userId;
     const assetNameTag =req.body.assetNameTag;
     const assetQuantity = parseFloat(req.body.assetQuantity);
     try{
         if (!(userId && assetNameTag && assetQuantity)) {
-            const error = new Error("wrong input data");
+            const error = new Error("wrong input data editasset");
             error.statusCode = 422;
             throw error;
         }
@@ -64,7 +63,7 @@ export const deleteAsset = async(req,res,next)=>{
     let assetNameTag = req.body.assetNameTag;
     try{
         if(!(userId && assetNameTag)){
-            const error = new Error('wrong input data');
+            const error = new Error('wrong input data deleteasset');
             error.statusCode=422;
             throw error;
         }
@@ -97,7 +96,7 @@ export const deleteAsset = async(req,res,next)=>{
             await user.save();
             res.status(201).json({ message: "Asset deleted", userId: user._id });
         }
-    } 
+    }
     catch (err) {
         err.statusCode = 422;
         next(err);

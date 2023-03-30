@@ -4,8 +4,15 @@ import * as config from "../config.js"
 
 export const isAuth= (req,res,next)=>{
     const authHeader = req.get('Authorization');
-    if(!authHeader){
-        res.status(500).json({message:"Unauthorized acces!"});
+    try{
+        if(!authHeader){
+            const error = new Error("Unauthorized access!");
+            error.statusCode = 500;
+            throw error;
+        }
+    }
+    catch(err){
+        next(err);
         return;
     }
     const token = authHeader;

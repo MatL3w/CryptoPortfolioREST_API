@@ -5,12 +5,19 @@ import User from '../Models/user.js';
 import * as config from '../config.js';
 
 export const signup = async (req,res,next)=>{
-    if(!req.body){
-        return ;
-    }
     const email = req.body.email;
     const password = req.body.password;
     const name = req.body.name;
+    try {
+      if (!(email && name && password)) {
+        const error = new Error("wrong input data for signup");
+        error.statusCode = 422;
+        throw error;
+      }
+    } catch (err) {
+      next(err);
+      return;
+    }
     try{
         const hashedPass = await bcrypt.hash(password, 12)
         const user = new User({
@@ -24,11 +31,22 @@ export const signup = async (req,res,next)=>{
     }
     catch(err){
         next(err);
+        return;
     }
 }
 export const signin = async(req,res,next)=>{
     const email = req.body.email;
     const password = req.body.password;
+    try {
+      if (!(email && password)) {
+        const error = new Error("wrong input data for signin");
+        error.statusCode = 422;
+        throw error;
+      }
+    } catch (err) {
+      next(err);
+      return;
+    }
     try{
         const user = await User.findOne({email:email});
         if(!user){
@@ -52,6 +70,7 @@ export const signin = async(req,res,next)=>{
     }
     catch(err){
         next(err);
+        return;
     }
     
 }
