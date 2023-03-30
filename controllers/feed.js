@@ -91,7 +91,7 @@ export const getAssets = async(req,res,next)=>{
     const userId = req.userId;
     let user;
     try{
-        user =await User.findOne({_id:userId});
+        user = await User.findOne({_id:userId});
         let tokenInfo;
         for(let i =0;i<user.assets.length;i++){
             tokenInfo = await util.getTokenInfo(user.assets[i].name, user.assets[i].quantity);
