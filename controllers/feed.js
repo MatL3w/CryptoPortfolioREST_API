@@ -10,7 +10,7 @@ export const editAsset = async(req,res,next)=>{
     try{
 
         user = await User.findOne({_id:userId})
-        crypto = await util.getTokenInfo(assetNameTag);
+        tokenInfo = await util.getTokenInfo(assetNameTag);
         if(!user){
             console.log('lol');
             return;
