@@ -27,9 +27,10 @@ mongoose.set("strictQuery", true);
 mongoose
   .connect(config.MONGODB_CONNECTION, {dbName:config.MONGODB_DATABASE_NAME})
   .then((result) => {
+    //console.log("start");
     app.listen(config.PORT || 3000);
   })
   .catch((err) => {
-    //console.log(err);
+    console.log(err);
   });
 
