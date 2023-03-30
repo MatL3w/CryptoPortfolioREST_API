@@ -101,6 +101,8 @@ export const getAssets = async(req,res,next)=>{
         res.status(201).json({ assets: user.assets, userId: user._id });
     }
     catch(err){
-        console.log(err);
+        err.statusCode = 422;
+        next(err);
+        return;
     }
 }

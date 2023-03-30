@@ -18,7 +18,6 @@ app.use(authRouter.router);
 app.use(feedRouter.router);
 
 app.use(function(error, req, res, next) {
-  //console.log(error);
   const status = error.statusCode || 500;
   res.status(status).json({ message: error.message});
 });
@@ -27,7 +26,6 @@ mongoose.set("strictQuery", true);
 mongoose
   .connect(config.MONGODB_CONNECTION, {dbName:config.MONGODB_DATABASE_NAME})
   .then((result) => {
-    //console.log("start");
     app.listen(config.PORT || 3000);
   })
   .catch((err) => {

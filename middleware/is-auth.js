@@ -21,7 +21,7 @@ export const isAuth= (req,res,next)=>{
         decodedToken = jwt.verify(token, config.JWT_SECRET);
     }
     catch(err){
-        const error = new Error("verification failed!");
+        const error = new Error("Verification failed!");
         error.statusCode = 401;
         next(err);
         return;

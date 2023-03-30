@@ -1,7 +1,7 @@
 export const getTokenInfo = async (name,quantity)=>{
     const crypto = {
-        nameTag : name.toLowerCase(),
-        quantity :quantity,
+      nameTag: name.toLowerCase(),
+      quantity: Number.parseFloat(quantity),
     };
     let found;
     await fetch("https://api.llama.fi/protocols", {
@@ -41,6 +41,10 @@ export const getTokenInfo = async (name,quantity)=>{
         crypto.price = data.coins[key].price;
         crypto.totalValue = crypto.price *crypto.quantity;
     })
-    .catch((err) => {});
+    .catch((err) => {
+        const error = new Error("Fetching data problem.");
+        error.statusCode = 422;
+        throw error;
+    });
     return crypto;
 };
