@@ -7,7 +7,7 @@ export const isAuth= (req,res,next)=>{
     try{
         if(!authHeader){
             const error = new Error("Unauthorized access!");
-            error.statusCode = 500;
+            error.statusCode = 401;
             throw error;
         }
     }
@@ -21,6 +21,9 @@ export const isAuth= (req,res,next)=>{
         decodedToken = jwt.verify(token, config.JWT_SECRET);
     }
     catch(err){
+        const error = new Error("Unauthorized access!");
+        error.statusCode = 401;
+        next(err);
         return;
     }
     req.userId = decodedToken.userId;

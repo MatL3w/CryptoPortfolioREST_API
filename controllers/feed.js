@@ -20,7 +20,7 @@ export const editAsset = async(req,res,next)=>{
     let tokenInfo;
     let completeTokenInfo;
     try{
-        user = await User.findOne({_id:userId})
+        user = await User.findOne({_id:userId});
         tokenInfo = await util.getTokenInfo(assetNameTag);
         console.log(tokenInfo);
         completeTokenInfo = Object.assign(
@@ -104,4 +104,12 @@ export const deleteAsset = async(req,res,next)=>{
 }
 export const getAsset = async(req,res,next)=>{
     const userId = req.userId;
+    let user;
+    try{
+        user =await User.findOne({_id:userId});
+        console.log(user.asset);
+    }
+    catch(err){
+        
+    }
 }

@@ -7,3 +7,5 @@ export const router = Router();
 router.post("/editasset",Authentication.isAuth, feedController.editAsset);
 
 router.delete('/deleteasset',Authentication.isAuth, feedController.deleteAsset);
+
+router.get("/getasset", Authentication.isAuth, feedController.getAsset);
