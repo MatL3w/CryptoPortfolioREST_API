@@ -37,6 +37,9 @@ const dataSchema = new mongoose.Schema({
   price: {
     type: Number,
   },
+  totalValue: {
+    type: Number,
+  },
 });
 
 const userSchema = new mongoose.Schema({

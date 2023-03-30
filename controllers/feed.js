@@ -7,32 +7,33 @@ export const editAsset = async(req,res,next)=>{
     const assetQuantity =parseFloat(req.body.assetQuantity);
     let user;
     let tokenInfo;
+    let completeTokenInfo;
     try{
         user = await User.findOne({_id:userId})
         tokenInfo = await util.getTokenInfo(assetNameTag);
+        console.log(tokenInfo);
+        completeTokenInfo = Object.assign(
+            {
+                nameTag: assetNameTag,
+                quantity: assetQuantity,
+            },
+            tokenInfo,
+            {
+                totalValue: assetQuantity * parseFloat(tokenInfo.price),
+            }
+        );
         if(!user){
             console.log('lol');
             return;
         }
         const assetExistIndex = user.asset.findIndex(ele=>ele.nameTag === assetNameTag);
         if(assetExistIndex === -1){
-            user.asset.push(Object.assign({},
-                {
-                    nameTag: assetNameTag,
-                    quantity: assetQuantity,
-                },
-                tokenInfo,));
+            user.asset.push(completeTokenInfo);
             await user.save();
             res.status(201).json({ message: "Asset added", userId: user._id });
         }
         else{
-            user.asset.splice(assetExistIndex,1,Object.assign({},
-                {
-                  nameTag: assetNameTag,
-                  quantity: assetQuantity,
-                },
-                tokenInfo
-            ));
+            user.asset.splice(assetExistIndex,1,completeTokenInfo);
             await user.save();
             res.status(201).json({ message: "Asset edited", userId: user._id });
         }
