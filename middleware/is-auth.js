@@ -19,7 +19,8 @@ export const isAuth = async (req,res,next)=>{
     }
     try {
         const result  = await LogOutToken.find({token:authHeader});
-        if(result){
+        if(result.length !==0){
+            console.log(result);
             const error = new Error("Token logged out!");
             error.statusCode = 401;
             throw error;
