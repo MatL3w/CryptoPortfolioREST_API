@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const loggedOutTokenSchema = new mongoose.Schema(
+const logOutTokenSchema = new mongoose.Schema(
   {
     token: {
       type: String,
@@ -12,4 +12,4 @@ const loggedOutTokenSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("LoggedOutToken", loggedOutTokenSchema);
+export default mongoose.model("LogOutToken", logOutTokenSchema);

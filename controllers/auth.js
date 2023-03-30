@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import  jwt from 'jsonwebtoken';
 
 import User from '../Models/user.js';
+import LogOutToken from "../Models/logOutToken.js"
 import * as config from '../config.js';
 
 export const signup = async (req,res,next)=>{
@@ -30,8 +31,9 @@ export const signup = async (req,res,next)=>{
         res.status(201).json({ message: "User created!", userId: result._id });
     }
     catch(err){
-        next(err);
-        return;
+      err.statusCode = 500;
+      next(err);
+      return;    
     }
 }
 export const signin = async(req,res,next)=>{
@@ -73,4 +75,20 @@ export const signin = async(req,res,next)=>{
         return;
     }
     
+}
+export const logout = async (req,res,next)=>{
+  const authHeader = req.get("Authorization");
+  const logOutToken  = new LogOutToken({
+    token:authHeader
+  })
+  try {
+    const result =await logOutToken.save();
+    console.log(result);
+    res.status(200).json({ message: "User Logout"});
+  }
+  catch (error) {
+    err.statusCode = 500;
+    next(err);
+    return;
+  }
 }

@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 
+import LogOutToken from "../Models/logOutToken.js";
 import * as config from "../config.js"
 
-export const isAuth= (req,res,next)=>{
+export const isAuth = async (req,res,next)=>{
     const authHeader = req.get('Authorization');
     try{
         if(!authHeader){
@@ -12,6 +13,20 @@ export const isAuth= (req,res,next)=>{
         }
     }
     catch(err){
+        err.statusCode = 500;
+        next(err);
+        return;
+    }
+    try {
+        const result  = await LogOutToken.find({token:authHeader});
+        if(result){
+            const error = new Error("Token logged out!");
+            error.statusCode = 401;
+            throw error;
+        }
+    }
+    catch (err) {
+        err.statusCode = 500;
         next(err);
         return;
     }
