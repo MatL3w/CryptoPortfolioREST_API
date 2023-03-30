@@ -45,14 +45,21 @@ export const editAsset = async(req,res,next)=>{
 }
 export const deleteAsset = async(req,res,next)=>{
     const userId = req.userId;
-    const assetNameTag = req.body.assetNameTag;
+    const assetNameTag = req.body.assetNameTag.toLowerCase();
     let user;
+    let assetExistIndex;
     try {
         user = await User.findOne({ _id:userId });
         if (!user) {
             return;
         }
-        const assetExistIndex = user.asset.findIndex((ele) => ele.nameTag === assetNameTag);
+        assetExistIndex = user.asset.findIndex((ele) => ele.nameTag === assetNameTag);
+        if(assetExistIndex === -1){
+            assetExistIndex = user.asset.findIndex((ele) => ele.name.toLocaleLowerCase() === assetNameTag);
+        }
+        if(assetExistIndex === -1){
+            assetExistIndex = user.asset.findIndex((ele) => ele.symbol.toLocaleLowerCase() === assetNameTag);
+        }
         if (assetExistIndex === -1) {
             res.status(422).json({ message: "There is no such asset!", userId: user._id });
         } 
