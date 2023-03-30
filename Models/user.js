@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import * as dataSchema from './data.js'
+import {dataSchema} from './data.js'
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -19,7 +19,5 @@ const userSchema = new mongoose.Schema({
 {
     timestamps:true
 });
-
-
 
 export default mongoose.model('User', userSchema);

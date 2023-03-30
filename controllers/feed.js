@@ -1,7 +1,7 @@
 import User from "../Models/user.js"
 import * as util from '../util/util.js'
 
-export const editAsset = async(req,res,next)=>{
+export const upsertAsset = async(req,res,next)=>{
     const userId = req.userId;
     const assetNameTag =req.body.assetNameTag;
     const assetQuantity = parseFloat(req.body.assetQuantity);
@@ -18,21 +18,10 @@ export const editAsset = async(req,res,next)=>{
     }
     let user;
     let tokenInfo;
-    let completeTokenInfo;
     try{
         user = await User.findOne({_id:userId});
-        tokenInfo = await util.getTokenInfo(assetNameTag);
+        tokenInfo = await util.getTokenInfo(assetNameTag,assetQuantity);
         console.log(tokenInfo);
-        completeTokenInfo = Object.assign(
-            {
-                nameTag: assetNameTag,
-                quantity: assetQuantity,
-            },
-            tokenInfo,
-            {
-                totalValue: assetQuantity * parseFloat(tokenInfo.price),
-            }
-        );
         let assetExistIndex = user.asset.findIndex(ele=>ele.nameTag === assetNameTag);
         if(assetExistIndex === -1){
             assetExistIndex = user.asset.findIndex((ele) => ele.name.toLocaleLowerCase() === assetNameTag);
@@ -41,12 +30,12 @@ export const editAsset = async(req,res,next)=>{
             assetExistIndex = user.asset.findIndex((ele) => ele.symbol.toLocaleLowerCase() === assetNameTag);
         }
         if(assetExistIndex === -1){
-            user.asset.push(completeTokenInfo);
+            user.asset.push(tokenInfo);
             await user.save();
             res.status(201).json({ message: "Asset added", userId: user._id });
         }
         else{
-            user.asset.splice(assetExistIndex,1,completeTokenInfo);
+            user.asset.splice(assetExistIndex, 1, tokenInfo);
             await user.save();
             res.status(201).json({ message: "Asset edited", userId: user._id });
         }
@@ -102,7 +91,7 @@ export const deleteAsset = async(req,res,next)=>{
         return;
     }
 }
-export const getAsset = async(req,res,next)=>{
+export const getAssets = async(req,res,next)=>{
     const userId = req.userId;
     let user;
     try{
@@ -110,6 +99,6 @@ export const getAsset = async(req,res,next)=>{
         console.log(user.asset);
     }
     catch(err){
-        
+        console.log(err);
     }
 }

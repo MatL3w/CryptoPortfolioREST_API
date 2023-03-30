@@ -40,3 +40,4 @@ export const dataSchema = new mongoose.Schema({
     type: Number,
   },
 });
+export const Data = mongoose.model("Data", dataSchema);

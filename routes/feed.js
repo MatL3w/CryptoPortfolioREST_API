@@ -4,8 +4,8 @@ import * as Authentication from "../middleware/is-auth.js";
 
 export const router = Router();
 
-router.post("/editasset",Authentication.isAuth, feedController.editAsset);
+router.post("/upsertasset",Authentication.isAuth, feedController.upsertAsset);
 
 router.delete('/deleteasset',Authentication.isAuth, feedController.deleteAsset);
 
-router.get("/getasset", Authentication.isAuth, feedController.getAsset);
+router.get("/getassets", Authentication.isAuth, feedController.getAssets);

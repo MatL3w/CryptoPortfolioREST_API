@@ -1,15 +1,7 @@
-export const getTokenInfo = async (name)=>{
-    const assetName = name.toLowerCase();
+export const getTokenInfo = async (name,quantity)=>{
     const crypto = {
-        //name,
-        // address:,
-        // tvl,
-        // category,
-        // symbol,
-        // logo,
-        // url,
-        // mcap,
-        // price,
+        nameTag : name.toLowerCase(),
+        quantity :quantity,
     };
     let found;
     await fetch("https://api.llama.fi/protocols", {
@@ -21,11 +13,11 @@ export const getTokenInfo = async (name)=>{
     .then((result) => result.json())
     .then((data) => {
         found = data.find((ele) => {
-        return ele.name.toLowerCase() === assetName;
+        return ele.name.toLowerCase() === crypto.nameTag;
         });
         if (!found) {
         found = data.find((ele) => {
-            return ele.symbol.toLowerCase() === assetName;
+            return ele.symbol.toLowerCase() === crypto.nameTag;
         });
         }
         crypto.address = found.address.includes(":")? found.address: "ethereum:" + found.address;
@@ -47,6 +39,7 @@ export const getTokenInfo = async (name)=>{
     .then((data) => {
         const key = Object.keys(data.coins)[0];
         crypto.price = data.coins[key].price;
+        crypto.totalValue = crypto.price *crypto.quantity;
     })
     .catch((err) => {});
     return crypto;
