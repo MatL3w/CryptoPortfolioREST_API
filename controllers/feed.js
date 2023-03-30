@@ -6,15 +6,11 @@ export const editAsset = async(req,res,next)=>{
     const userId = req.userId;
     const assetNameTag =req.body.assetNameTag;
     const assetQuantity = parseFloat(req.body.assetQuantity);
-    console.log(assetNameTag);
-    console.log(assetQuantity);
-    console.log(userId);
     try{
         if (!(userId && assetNameTag && assetQuantity)) {
-        const error = new Error("wrong input data");
-        error.statusCode = 422;
-        console.log("go to error");
-        throw error;
+            const error = new Error("wrong input data");
+            error.statusCode = 422;
+            throw error;
         }
     }
     catch(err){
@@ -38,7 +34,13 @@ export const editAsset = async(req,res,next)=>{
                 totalValue: assetQuantity * parseFloat(tokenInfo.price),
             }
         );
-        const assetExistIndex = user.asset.findIndex(ele=>ele.nameTag === assetNameTag);
+        let assetExistIndex = user.asset.findIndex(ele=>ele.nameTag === assetNameTag);
+        if(assetExistIndex === -1){
+            assetExistIndex = user.asset.findIndex((ele) => ele.name.toLocaleLowerCase() === assetNameTag);
+        }
+        if(assetExistIndex === -1){
+            assetExistIndex = user.asset.findIndex((ele) => ele.symbol.toLocaleLowerCase() === assetNameTag);
+        }
         if(assetExistIndex === -1){
             user.asset.push(completeTokenInfo);
             await user.save();
@@ -52,16 +54,25 @@ export const editAsset = async(req,res,next)=>{
 
     }
     catch(err){
+        err.statusCode = 422;
         next(err);
+        return;
     }
 }
 export const deleteAsset = async(req,res,next)=>{
     const userId = req.userId;
     let assetNameTag = req.body.assetNameTag;
-    if(!(userId && assetNameTag)){
-        const error = new Error('wrong input data');
-        error.statusCode=422;
-        throw error;
+    try{
+        if(!(userId && assetNameTag)){
+            const error = new Error('wrong input data');
+            error.statusCode=422;
+            throw error;
+        }
+    }
+    catch(err){
+        err.statusCode = 422;
+        next(err);
+        return;
     }
     assetNameTag = assetNameTag.toLowercase();
     let user;
@@ -88,6 +99,8 @@ export const deleteAsset = async(req,res,next)=>{
         }
     } 
     catch (err) {
+        err.statusCode = 422;
         next(err);
+        return;
     }
 }

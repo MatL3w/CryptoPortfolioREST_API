@@ -8,13 +8,10 @@ export const isAuth= (req,res,next)=>{
         res.status(500).json({message:"Unauthorized acces!"});
         return;
     }
-    console.log(authHeader);
     const token = authHeader;
     let decodedToken;
     try{
         decodedToken = jwt.verify(token, config.JWT_SECRET);
-        console.log(decodedToken);
-        
     }
     catch(err){
         return;
