@@ -11,7 +11,7 @@ export const signup = async (req,res,next)=>{
     try {
       if (!(email && name && password)) {
         const error = new Error("wrong input data for signup");
-        error.statusCode = 422;
+        error.statusCode = 400;
         throw error;
       }
     } catch (err) {
@@ -40,7 +40,7 @@ export const signin = async(req,res,next)=>{
     try {
       if (!(email && password)) {
         const error = new Error("wrong input data for signin");
-        error.statusCode = 422;
+        error.statusCode = 400;
         throw error;
       }
     } catch (err) {

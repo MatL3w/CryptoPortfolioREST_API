@@ -8,7 +8,7 @@ export const editAsset = async(req,res,next)=>{
     try{
         if (!(userId && assetNameTag && assetQuantity)) {
             const error = new Error("wrong input data editasset");
-            error.statusCode = 422;
+            error.statusCode = 400;
             throw error;
         }
     }
@@ -50,10 +50,9 @@ export const editAsset = async(req,res,next)=>{
             await user.save();
             res.status(201).json({ message: "Asset edited", userId: user._id });
         }
-
     }
     catch(err){
-        err.statusCode = 422;
+        err.statusCode = 400;
         next(err);
         return;
     }
@@ -102,4 +101,7 @@ export const deleteAsset = async(req,res,next)=>{
         next(err);
         return;
     }
+}
+export const getAsset = async(req,res,next)=>{
+    const userId = req.userId;
 }
