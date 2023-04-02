@@ -55,8 +55,11 @@ export const signin = async(req,res,next)=>{
             return ;
         }
         const passwordCheck = await bcrypt.compare(password,user.password);
+        console.log(passwordCheck);
         if(!passwordCheck){
-            return;
+          const error = new Error("Wrong password");
+          error.statusCode = 400;
+          throw error;
         }
         const token = jwt.sign(
             {
@@ -91,4 +94,33 @@ export const logout = async (req,res,next)=>{
     next(err);
     return;
   }
+}
+export const changePassowrd = async (req,res,next)=>{
+    const userId  = req.userId;
+    const oldPassword  = req.body.oldPassword;
+    const newPassword  = req.body.newPassword;
+    try {
+      if (!(oldPassword && newPassword)) {
+        const error = new Error("wrong input data for changing password");
+        error.statusCode = 400;
+        throw error;
+      }
+    } catch (err) {
+      next(err);
+      return;
+    }
+    try {
+      const user = await User.findById(userId);
+      const passwordCheck = await bcrypt.compare(oldPassword, user.password);
+      if (!passwordCheck) {
+        return;
+      }
+      const newHashedPassword  = await bcrypt.hash(newPassword,12);
+      user.password = newHashedPassword;
+      await user.save();
+      res.status(200).json({ message: "Password changed", userId: user._id.toString() });
+    } catch (err) {
+      next(err);
+      return;
+    }
 }
