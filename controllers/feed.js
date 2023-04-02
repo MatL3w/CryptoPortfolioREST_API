@@ -48,12 +48,11 @@ export const deleteAsset = async(req,res,next)=>{
     try{
         if(!(userId && assetNameTag)){
             const error = new Error('wrong input data deleteasset');
-            error.statusCode=422;
+            error.statusCode=400;
             throw error;
         }
     }
     catch(err){
-        err.statusCode = 422;
         next(err);
         return;
     }
@@ -63,7 +62,9 @@ export const deleteAsset = async(req,res,next)=>{
     try {
         user = await User.findOne({ _id:userId });
         if (!user) {
-            return;
+            const error = new Error("User don't exist");
+            error.statusCode = 422;
+            throw error;
         }
         assetExistIndex = user.assets.findIndex((ele) => ele.nameTag === assetNameTag);
         if(assetExistIndex === -1){
