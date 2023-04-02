@@ -12,3 +12,6 @@ router.post("/logout",Authentication.isAuth, authController.logout);
 
 router.post("/changepassword", Authentication.isAuth, authController.changePassowrd);
 
+router.post("/changeemail", Authentication.isAuth, authController.changeEmail);
+
+

@@ -126,3 +126,35 @@ export const changePassowrd = async (req,res,next)=>{
       return;
     }
 }
+export const changeEmail = async (req, res, next) => {
+  const userId = req.userId;
+  const password = req.body.password;
+  const newEmail = req.body.newEmail;
+  try {
+    if (!(password && newEmail)) {
+      const error = new Error("wrong input data for changing email");
+      error.statusCode = 400;
+      throw error;
+    }
+  } catch (err) {
+    next(err);
+    return;
+  }
+  try {
+    const user = await User.findById(userId);
+    const passwordCheck = await bcrypt.compare(password, user.password);
+    if (!passwordCheck) {
+      const error = new Error("Wrong password");
+      error.statusCode = 400;
+      throw error;
+    }
+    user.email = newEmail;
+    await user.save();
+    res
+      .status(200)
+      .json({ message: "Email changed", userId: user._id.toString() });
+  } catch (err) {
+    next(err);
+    return;
+  }
+};
