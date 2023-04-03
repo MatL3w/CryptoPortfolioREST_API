@@ -22,6 +22,13 @@ In application you can create your account and store information about your cryp
 - [GET /getassets](#get-getassets)
 - [GET /getasset](#get-getasset)
 
+# Technologies
+Projest is created with:
+* nodejs version: v19.8.1
+* express version: 2.33
+
+
+
 # Getting Started
 To get started with this API, you will need to clone this repository and install the required dependencies.
 ```
