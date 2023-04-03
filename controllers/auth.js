@@ -52,7 +52,9 @@ export const signin = async(req,res,next)=>{
     try{
         const user = await User.findOne({email:email});
         if(!user){
-            return ;
+          const error = new Error("wrong input data for signin");
+          error.statusCode = 400;
+          throw error;
         }
         const passwordCheck = await bcrypt.compare(password,user.password);
         console.log(passwordCheck);

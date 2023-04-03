@@ -13,13 +13,19 @@ export const getTokenInfo = async (name,quantity)=>{
     .then((result) => result.json())
     .then((data) => {
         found = data.find((ele) => {
-        return ele.name.toLowerCase() === crypto.nameTag;
+            return ele.name.toLowerCase() === crypto.nameTag;
         });
         if (!found) {
-        found = data.find((ele) => {
-            return ele.symbol.toLowerCase() === crypto.nameTag;
-        });
+            found = data.find((ele) => {
+                return ele.symbol.toLowerCase() === crypto.nameTag;
+            });
         }
+        if (!found) {
+            const error = new Error("There is no asset with this nameTag!");
+            error.expectedError = true;
+            error.statusCode = 422;
+            throw error;
+        };
         crypto.address = found.address.includes(":")? found.address: "ethereum:" + found.address;
         crypto.name = found.name;
         crypto.tvl = found.tvl;
@@ -42,9 +48,12 @@ export const getTokenInfo = async (name,quantity)=>{
         crypto.totalValue = crypto.price *crypto.quantity;
     })
     .catch((err) => {
-        const error = new Error("Fetching data problem.");
-        error.statusCode = 422;
-        throw error;
+        if(!err.expectedError){
+            const error = new Error("Fetching data problem.");
+            error.statusCode = 422;
+            throw error;
+        }
+        throw err;
     });
     return crypto;
 };

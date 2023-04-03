@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import {dataSchema} from './data.js'
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -14,7 +13,10 @@ const userSchema = new mongoose.Schema({
     type: String ,
     required: true
   },
-  assets:[dataSchema]
+  assets:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref : 'Asset'
+  }]
 },
 {
     timestamps:true
