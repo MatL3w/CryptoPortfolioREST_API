@@ -36,18 +36,15 @@ export const signup = async (req,res,next)=>{
     }
 }
 export const signin = async(req,res,next)=>{
+      const errors = validationResult(req);
+      try {
+        util.checkForValidationErrors(errors, "Validation input data error");
+      } catch (error) {
+        next(error);
+        return;
+      }
     const email = req.body.email;
     const password = req.body.password;
-    try {
-      if (!(email && password)) {
-        const error = new Error("wrong input data for signin");
-        error.statusCode = 400;
-        throw error;
-      }
-    } catch (err) {
-      next(err);
-      return;
-    }
     try{
         const user = await User.findOne({email:email});
         if(!user){
@@ -56,7 +53,6 @@ export const signin = async(req,res,next)=>{
           throw error;
         }
         const passwordCheck = await bcrypt.compare(password,user.password);
-        console.log(passwordCheck);
         if(!passwordCheck){
           const error = new Error("Wrong password");
           error.statusCode = 400;
@@ -81,13 +77,19 @@ export const signin = async(req,res,next)=>{
     
 }
 export const logout = async (req,res,next)=>{
+  const errors = validationResult(req);
+  try {
+     util.checkForValidationErrors(errors, "Validation input data error");
+  } catch (error) {
+     next(error);
+     return;
+  }  
   const authHeader = req.get("Authorization");
   const logOutToken  = new LogOutToken({
     token:authHeader
   })
   try {
     const result =await logOutToken.save();
-    console.log(result);
     res.status(200).json({ message: "User Logout"});
   }
   catch (error) {
@@ -97,19 +99,16 @@ export const logout = async (req,res,next)=>{
   }
 }
 export const changePassowrd = async (req,res,next)=>{
-    const userId  = req.userId;
+  const errors = validationResult(req);
+  try {
+    util.checkForValidationErrors(errors, "Validation input data error");
+  } catch (error) {
+    next(error);
+    return;
+  }    
+  const userId  = req.userId;
     const oldPassword  = req.body.oldPassword;
     const newPassword  = req.body.newPassword;
-    try {
-      if (!(oldPassword && newPassword)) {
-        const error = new Error("wrong input data for changing password");
-        error.statusCode = 400;
-        throw error;
-      }
-    } catch (err) {
-      next(err);
-      return;
-    }
     try {
       const user = await User.findById(userId);
       const passwordCheck = await bcrypt.compare(oldPassword, user.password);
@@ -128,19 +127,16 @@ export const changePassowrd = async (req,res,next)=>{
     }
 }
 export const changeEmail = async (req, res, next) => {
+  const errors = validationResult(req);
+  try {
+    util.checkForValidationErrors(errors, "Validation input data error");
+  } catch (error) {
+    next(error);
+    return;
+  }    
   const userId = req.userId;
   const password = req.body.password;
   const newEmail = req.body.newEmail;
-  try {
-    if (!(password && newEmail)) {
-      const error = new Error("wrong input data for changing email");
-      error.statusCode = 400;
-      throw error;
-    }
-  } catch (err) {
-    next(err);
-    return;
-  }
   try {
     const user = await User.findById(userId);
     const passwordCheck = await bcrypt.compare(password, user.password);

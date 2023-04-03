@@ -89,6 +89,13 @@ export const deleteAsset = async(req,res,next)=>{
     }
 }
 export const getAssets = async(req,res,next)=>{
+    const errors = validationResult(req);
+    try {
+      util.checkForValidationErrors(errors, "Validation input data error");
+    } catch (error) {
+      next(error);
+      return;
+    }
     const userId = req.userId;
     let user;
     let tokenInfoArray = [];
