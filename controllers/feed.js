@@ -108,22 +108,15 @@ export const getAssets = async(req,res,next)=>{
     }
 }
 export const getAsset = async(req,res,next)=>{
+    const errors = validationResult(req);
+    try {
+      util.checkForValidationErrors(errors, "Validation input data error");
+    } catch (error) {
+      next(error);
+      return;
+    }
     const userId = req.userId;
-    let assetNameTag = req.body.assetNameTag;
-    try{
-        if(!(userId && assetNameTag)){
-            const error = new Error('wrong input get asset');
-            error.statusCode=422;
-            throw error;
-        }
-    }
-    catch(err){
-        err.statusCode = 422;
-        console.log(err);
-        next(err);
-        return;
-    }
-    assetNameTag = assetNameTag.toLowerCase();
+    let assetNameTag = req.body.assetNameTag.toLowerCase();
     let user;
     let tokenInfo;
     let assetIndex;

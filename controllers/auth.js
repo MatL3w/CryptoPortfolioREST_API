@@ -1,24 +1,23 @@
 import bcrypt from 'bcrypt';
 import  jwt from 'jsonwebtoken';
+import { validationResult } from "express-validator";
 
 import User from '../Models/user.js';
 import LogOutToken from "../Models/logOutToken.js"
 import * as config from '../config.js';
+import * as util from "../util/util.js";
 
 export const signup = async (req,res,next)=>{
+    const errors = validationResult(req);
+    try {
+      util.checkForValidationErrors(errors, "Validation input data error");
+    } catch (error) {
+      next(error);
+      return;
+    }
     const email = req.body.email;
     const password = req.body.password;
     const name = req.body.name;
-    try {
-      if (!(email && name && password)) {
-        const error = new Error("wrong input data for signup");
-        error.statusCode = 400;
-        throw error;
-      }
-    } catch (err) {
-      next(err);
-      return;
-    }
     try{
         const hashedPass = await bcrypt.hash(password, 12)
         const user = new User({
@@ -33,7 +32,7 @@ export const signup = async (req,res,next)=>{
     catch(err){
       err.statusCode = 500;
       next(err);
-      return;    
+      return;
     }
 }
 export const signin = async(req,res,next)=>{
