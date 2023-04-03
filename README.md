@@ -9,6 +9,7 @@ Created only for learning and trenning purposes. To present basic features in RE
 In application you can create your account and store information about your crypto assets.
 
 # Table of contents
+* [technologies](#Technologies)
 * [Getting Started](#Getting-Started)
 * [Config file](#Config-file)
 * [Endpoints](#Endpoints)
