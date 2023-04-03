@@ -57,3 +57,10 @@ export const getTokenInfo = async (name,quantity)=>{
     });
     return crypto;
 };
+export const checkForValidationErrors = (errors,message)=>{
+    if (!errors.isEmpty()) {
+      const error = new Error(message);
+      error.statusCode = 422;
+      throw error;
+    }    
+}

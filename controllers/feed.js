@@ -5,11 +5,11 @@ import { validationResult } from "express-validator";
 
 export const upsertAsset = async(req,res,next)=>{
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const error = new Error("Validation failed, entered data is incorrect.");
-        error.statusCode = 422;
+    try {
+        util.checkForValidationErrors(errors,"Validation input data error")
+    } catch (error) {
         next(error);
-        return;
+        return;        
     }
     const userId = req.userId;
     const assetNameTag =req.body.assetNameTag;
@@ -38,7 +38,6 @@ export const upsertAsset = async(req,res,next)=>{
         else{
             const asset = await Asset.findById(user.assets[assetExistIndex]._id);
             asset.quantity=assetQuantity;
-            console.log(asset);
             await asset.save();
             res.status(201).json({ message: "Asset updated", userId: user._id });
         }
@@ -50,20 +49,15 @@ export const upsertAsset = async(req,res,next)=>{
     }
 }
 export const deleteAsset = async(req,res,next)=>{
+    const errors = validationResult(req);
+    try {
+      util.checkForValidationErrors(errors, "Validation input data error");
+    } catch (error) {
+      next(error);
+      return;
+    }    
     const userId = req.userId;
-    let assetNameTag = req.body.assetNameTag;
-    try{
-        if(!(userId && assetNameTag)){
-            const error = new Error('wrong input data deleteasset');
-            error.statusCode=400;
-            throw error;
-        }
-    }
-    catch(err){
-        next(err);
-        return;
-    }
-    assetNameTag = assetNameTag.toLowerCase();
+    const assetNameTag = req.body.assetNameTag.toLowerCase();
     let user;
     let assetExistIndex;
     try {

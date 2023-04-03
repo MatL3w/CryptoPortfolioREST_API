@@ -6,9 +6,9 @@ import * as Authentication from "../middleware/is-auth.js";
 
 export const router = Router();
 
-router.post("/upsertasset",Authentication.isAuth,[body('assetNameTag').isString(), body('assetQuantity').isNumeric()], feedController.upsertAsset);
+router.post("/upsertasset",Authentication.isAuth,[body('assetNameTag').not().isEmpty().isString().trim(), body('assetQuantity').toFloat().isNumeric()], feedController.upsertAsset);
 
-router.delete('/deleteasset',Authentication.isAuth, feedController.deleteAsset);
+router.delete('/deleteasset',Authentication.isAuth,[body('assetNameTag').not().isEmpty().isString().trim()], feedController.deleteAsset);
 
 router.get("/getassets", Authentication.isAuth, feedController.getAssets);
 
