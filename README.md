@@ -9,7 +9,7 @@ Created only for learning and trenning purposes. To present basic features in RE
 In application you can create your account and store information about your crypto assets.
 
 # Table of contents
-* [technologies](#Technologies)
+* [Technologies](#Technologies)
 * [Getting Started](#Getting-Started)
 * [Config file](#Config-file)
 * [Endpoints](#Endpoints)
@@ -25,9 +25,11 @@ In application you can create your account and store information about your cryp
 
 # Technologies
 Projest is created with:
-* nodejs version: v19.8.1
+* nodejs version: 19.8.1
 * express version: 2.33
-
+* bcrypt version: 5.1.0
+* jsonwebtoken: 9.0.0
+* moongose: 1.0.0
 
 
 # Getting Started
