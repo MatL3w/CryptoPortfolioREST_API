@@ -46,7 +46,7 @@ This application cooperate with mongoDb database
 
 The API provides the following endpoints:
 
-## POST /signup
+## POST/signup
 
 This endpoint allow you to create your new account.
 
