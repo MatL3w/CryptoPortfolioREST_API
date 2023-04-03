@@ -18,6 +18,9 @@ In application you can create your account and store information about your cryp
 - [POST /changepassword](#post-changepassword)
 
 - [POST /upsertasset](#post-upsertasset)
+- [DELETE /changepassword](#delete-deleteasset)
+- [GET /getassets](#get-getassets)
+- [GET /getasset](#get-getasset)
 
 # Getting Started
 To get started with this API, you will need to clone this repository and install the required dependencies.
