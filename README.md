@@ -12,8 +12,8 @@ In application you can create your account and store information about your cryp
 * [Getting Started](#Getting-Started)
 * [Config file](#Config-file)
 * [Endpoints](#Endpoints)
-- [POST/signup](#postsignup)
-- [POST/signin](#postsignup)
+- [POST /signup](#postsignup)
+- [POST /signin](#postsignup)
 
 # Getting Started
 To get started with this API, you will need to clone this repository and install the required dependencies.
