@@ -1,23 +1,19 @@
 import User from "../Models/user.js"
 import Asset from "../Models/asset.js";
 import * as util from '../util/util.js'
-import mongoose from "mongoose";
+import { validationResult } from "express-validator";
 
 export const upsertAsset = async(req,res,next)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const error = new Error("Validation failed, entered data is incorrect.");
+        error.statusCode = 422;
+        next(error);
+        return;
+    }
     const userId = req.userId;
     const assetNameTag =req.body.assetNameTag;
     const assetQuantity = parseFloat(req.body.assetQuantity);
-    try{
-        if (!(userId && assetNameTag && assetQuantity)) {
-            const error = new Error("wrong input data editasset");
-            error.statusCode = 400;
-            throw error;
-        }
-    }
-    catch(err){
-        next(err);
-        return;
-    }
     let user;
     let tokenInfo;
     let assetExistIndex;
