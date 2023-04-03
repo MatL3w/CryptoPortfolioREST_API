@@ -13,6 +13,7 @@ In application you can create your account and store information about your cryp
 * [Config file](#Config-file)
 * [Endpoints](#Endpoints)
 - [POST/signup](#postsignup)
+- [POST/signin](#postsignup)
 
 # Getting Started
 To get started with this API, you will need to clone this repository and install the required dependencies.
@@ -46,7 +47,7 @@ This application cooperate with mongoDb database
 
 The API provides the following endpoints:
 
-## POST/signup
+## POST /signup
 
 This endpoint allow you to create your new account.
 
