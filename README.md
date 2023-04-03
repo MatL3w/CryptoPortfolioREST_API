@@ -18,7 +18,7 @@ In application you can create your account and store information about your cryp
 - [POST /logout](#post-logout)
 - [POST /changepassword](#post-changepassword)
 - [POST /upsertasset](#post-upsertasset)
-- [DELETE /changepassword](#delete-deleteasset)
+- [DELETE /deleteasset](#delete-deleteasset)
 - [GET /getassets](#get-getassets)
 - [GET /getasset](#get-getasset)
 
