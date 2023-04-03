@@ -177,3 +177,160 @@ The example of response body:
 }
 ```
 
+## POST /upsertasset
+
+This endpoint allow you to insert or update asset.
+
+The request should contain following header:
+```
+Authorization : JWT 
+```
+
+The request body should contain assetNameTag and assetQuantity.
+
+Example request body:
+```
+{
+    "assetNameTag": "QiDao",
+    "assetQuantity": 12555.5,
+}
+```
+
+
+- contain Validation of input data
+- check validation of JWT
+- check for existence of token
+- update existing field or create the new one
+
+The example of response body:
+```
+{
+  "message":"Asset added"
+  "userId:": "64245b3721900e5d85faf0e0"
+}
+```
+
+## DELETE /deleteasset
+
+This endpoint allow you to delete asset.
+
+The request should contain following header:
+```
+Authorization : JWT 
+```
+
+The request body should contain assetNameTag.
+
+Example request body:
+```
+{
+    "assetNameTag": "QiDao",
+}
+```
+
+
+- contain Validation of input data
+- check validation of JWT
+- check for existence of token
+- delete token from user account
+
+The example of response body:
+```
+{
+  "message":"Asset deleted"
+  "userId:": "64245b3721900e5d85faf0e0"
+}
+```
+
+## GET /getassets
+
+This endpoint allow you to fetch all user assets.
+
+The request should contain following header:
+```
+Authorization : JWT 
+```
+
+- check validation of JWT
+
+The example of response body:
+```
+{
+    "assets": [
+        {
+            "nameTag": "gmx",
+            "quantity": 2.123123,
+            "address": "arbitrum:0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a",
+            "name": "GMX",
+            "tvl": 621647652.843328,
+            "category": "Derivatives",
+            "symbol": "GMX",
+            "logo": "https://icons.llama.fi/gmx.png",
+            "url": "https://gmx.io/",
+            "mcap": 624169882.3720345,
+            "price": 73.59,
+            "totalValue": 156.24062157
+        },
+        {
+            "nameTag": "curve",
+            "quantity": 2.123123,
+            "address": "ethereum:0xD533a949740bb3306d119CC777fa900bA034cd52",
+            "name": "Curve",
+            "tvl": 4620563887.392376,
+            "category": "Dexes",
+            "symbol": "CRV",
+            "logo": "https://icons.llama.fi/curve.png",
+            "url": "https://curve.fi",
+            "mcap": 708891230.55511,
+            "price": 0.931636,
+            "totalValue": 1.9779778192280002
+        },
+     ],
+     "userId": "64245b3721900e5d85faf0e0"
+}
+```
+
+## GET /getasset
+
+This endpoint allow you to fetch only one asset.
+
+The request should contain following header:
+```
+Authorization : JWT 
+```
+
+The request body should contain assetNameTag.
+
+Example request body:
+```
+{
+    "assetNameTag": "QiDao",
+}
+```
+
+
+- contain Validation of input data
+- check validation of JWT
+- check for existence of token
+
+The example of response body:
+```
+{
+    "asset": {
+        "nameTag": "qidao",
+        "quantity": 2.123123,
+        "address": "polygon:0x580a84c73811e1839f75d86d75d88cca0c241ff4",
+        "name": "QiDao",
+        "tvl": 60040531.19524268,
+        "category": "CDP",
+        "symbol": "QI",
+        "logo": "https://icons.llama.fi/qidao.jpg",
+        "url": "https://app.mai.finance",
+        "mcap": 6262533.986094965,
+        "price": 0.075719,
+        "totalValue": 0.160760750437
+    },
+    "userId": "64245b3721900e5d85faf0e0"
+}
+```
+
