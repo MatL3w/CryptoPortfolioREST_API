@@ -12,8 +12,12 @@ In application you can create your account and store information about your cryp
 * [Getting Started](#Getting-Started)
 * [Config file](#Config-file)
 * [Endpoints](#Endpoints)
-- [POST /signup](#postsignup)
-- [POST /signin](#postsignup)
+- [POST /signup](#post-signup)
+- [POST /signin](#post-signup)
+- [POST /logout](#post-logout)
+- [POST /changepassword](#post-changepassword)
+
+- [POST /upsertasset](#post-upsertasset)
 
 # Getting Started
 To get started with this API, you will need to clone this repository and install the required dependencies.
@@ -119,7 +123,7 @@ The example of response body:
 }
 ```
 
-## POST /changePassword
+## POST /changepassword
 
 This endpoint allow you to change password.
 
@@ -151,7 +155,7 @@ The example of response body:
   "userId:": "64245b3721900e5d85faf0e0"
 }
 ```
-## POST /changeEmail
+## POST /changeemail
 
 This endpoint allow you to change email.
 
