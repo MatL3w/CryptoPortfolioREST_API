@@ -12,7 +12,7 @@ import * as config from './config.js';
 
 
 //core
-const { app, getWss, applyTo } = expressWs(express());
+export const { app, getWss, applyTo } = expressWs(express());
 
 app.use(bodyParser.json());
 app.use(function (req, res, next) {
@@ -23,12 +23,16 @@ app.use(function (req, res, next) {
   next();
 });
 
-setInterval(()=>{
-    console.log(getWss().clients.size);
-    getWss().clients.forEach(ele=>{
-        ele.send("elooo");
-    });
-},3000);
+// setInterval(()=>{
+//     console.log(getWss().clients.size);
+//     getWss().clients.forEach(ele=>{
+//         ele.send("elooo");
+//         console.log(ele.userId);
+//         // if(ele.userId){
+//         //   ele.terminate();
+//         // }
+//     });
+// },3000);
 
 app.use(webSocketRouter.router);
 app.use(authRouter.router);
