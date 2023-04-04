@@ -2,6 +2,7 @@
 import express from "express";
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import expressWs from "express-ws";
 
 //project modules
 import * as authRouter from './routes/auth.js';
@@ -10,7 +11,7 @@ import * as config from './config.js';
 
 
 //core
-const app = express();
+const { app, getWss, applyTo } = expressWs(express());
 
 app.use(bodyParser.json());
 app.use(function (req, res, next) {
@@ -20,6 +21,17 @@ app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Credentials", true);
   next();
 });
+
+const router = express.Router();
+
+router.ws("/echo", (ws, req) => {
+  console.log(req);
+  ws.on("message", (msg) => {
+    ws.send(msg);
+  });
+});
+
+app.use(router);
 app.use(authRouter.router);
 app.use(feedRouter.router);
 
