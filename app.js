@@ -7,6 +7,7 @@ import expressWs from "express-ws";
 //project modules
 import * as authRouter from './routes/auth.js';
 import * as feedRouter from "./routes/feed.js";
+import * as webSocketRouter from "./routes/webSocket.js";
 import * as config from './config.js';
 
 
@@ -22,16 +23,14 @@ app.use(function (req, res, next) {
   next();
 });
 
-const router = express.Router();
+setInterval(()=>{
+    console.log(getWss().clients.size);
+    getWss().clients.forEach(ele=>{
+        ele.send("elooo");
+    });
+},3000);
 
-router.ws("/echo", (ws, req) => {
-  console.log(req);
-  ws.on("message", (msg) => {
-    ws.send(msg);
-  });
-});
-
-app.use(router);
+app.use(webSocketRouter.router);
 app.use(authRouter.router);
 app.use(feedRouter.router);
 
