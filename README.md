@@ -22,7 +22,7 @@ In application you can create your account and store information about your cryp
 - [DELETE /deleteasset](#delete-deleteasset)
 - [GET /getassets](#get-getassets)
 - [GET /getasset](#get-getasset)
-- [WS /socket](#socket)
+- [WS /socket](#ws-socket)
 
 # Feature History
 Below are all added feature in chronogical order with detailed description:
