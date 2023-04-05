@@ -6,6 +6,8 @@ import expressWs from "express-ws";
 import cluster from "cluster";
 import os from "os";
 import helmet from "helmet";
+import fs from "fs";
+import path from "path";
 
 //project modules
 import * as authRouter from './routes/auth.js';
@@ -28,6 +30,10 @@ if (cluster.isPrimary) {
     });
 } 
 else {
+    const accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
+        flags: "a",
+    });
+    app.use(morgan("combined", { stream: accessLogStream }));
     app.use(helmet());
     app.use(bodyParser.json());
     app.use(function (req, res, next) {
@@ -38,10 +44,6 @@ else {
         next();
     });
 
-    app.use((req,res,next)=>{
-      console.log(`Worker ${process.pid}  handled`);
-      next();
-    });
     app.use(webSocketRouter.router);
     app.use(authRouter.router);
     app.use(feedRouter.router);
