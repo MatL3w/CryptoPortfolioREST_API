@@ -58,6 +58,14 @@ npm start
 ```
 The API will be available at http://localhost:3000.
 
+
+Additionaly remember to generate private key and certificate using openssl. This is manadatory because transmission now is only by https and wss.
+```
+openssl genrsa -out privatekey.pem 2048
+openssl req -new -x509 -key privatekey.pem -out certificate.pem -days 365
+```
+Put files in main folder.
+
 # Config file
 
 To make application operable, you have to create config file (config.js) in main folder and insert there, this following data:
