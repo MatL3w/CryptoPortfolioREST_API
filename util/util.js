@@ -64,3 +64,22 @@ export const checkForValidationErrors = (errors,message)=>{
       throw error;
     }    
 }
+export const defilamaIsOnline = async()=>{
+    let status;
+        await fetch("https://api.llama.fi/protocols", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((result) =>
+        {
+            if(result){
+                status=true;
+            }
+            else{
+                status =false;
+            }
+        });
+        return status;
+};
+
