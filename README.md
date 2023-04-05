@@ -9,6 +9,7 @@ Created only for learning and trenning purposes. To present basic features in RE
 In application you can create your account and store information about your crypto assets.
 
 # Table of contents
+* [Feature History](#Feature-History)
 * [Technologies](#Technologies)
 * [Getting Started](#Getting-Started)
 * [Config file](#Config-file)
@@ -363,6 +364,27 @@ The example of response body:
         "totalValue": 0.160760750437
     },
     "userId": "64245b3721900e5d85faf0e0"
+}
+```
+
+
+## WS /socket
+
+This endpoint allow you establish websocket connection.
+
+The request should contain following header:
+```
+Authorization : JWT 
+```
+
+- check validation of JWT
+- if exist websocket connection for current user, terminate previous connection and establish current.
+- every fixed period of time application send to user information about accessibility of data on https://defillama.com/docs/api
+
+The example of response body:
+```
+{
+ "online": "true"
 }
 ```
 
