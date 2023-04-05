@@ -32,7 +32,7 @@ Below are all added feature in chronogical order with detailed description:
  - **Multithread** functionality was added to application. Now Main thread create **cluster.fork** for all CPU cores and manage them. This opertaion provide better performance for handling a lot of request and isolate encountered errors from crashing all aplication.
  -  **Websocket** feature was added to provide still connection between users and apllication. In this way application can continously inform user about accessibility to defillama's informations which are crucial for utility this application.
  - **Helmet.js** was added to increase security.
- 
+ - **Morgan**  to logging 
 
 # Technologies
 Projest is created with:
@@ -42,6 +42,7 @@ Projest is created with:
 * jsonwebtoken: 9.0.0
 * moongose: 1.0.0
 * helmet: 6.0.1
+* morgan: 1.10.0
 
 
 # Getting Started
