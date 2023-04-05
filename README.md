@@ -41,6 +41,7 @@ Projest is created with:
 * bcrypt version: 5.1.0
 * jsonwebtoken: 9.0.0
 * moongose: 1.0.0
+* helmet: 6.0.1
 
 
 # Getting Started
