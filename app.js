@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import expressWs from "express-ws";
 import cluster from "cluster";
 import os from "os";
+import helmet from "helmet";
 
 //project modules
 import * as authRouter from './routes/auth.js';
@@ -27,6 +28,7 @@ if (cluster.isPrimary) {
     });
 } 
 else {
+    app.use(helmet());
     app.use(bodyParser.json());
     app.use(function (req, res, next) {
         res.setHeader("Access-Control-Allow-Origin", "*");
