@@ -2,24 +2,25 @@
 import express from "express";
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import expressWs from "express-ws";
 import cluster from "cluster";
 import os from "os";
 import helmet from "helmet";
 import morgan from "morgan"
 import fs from "fs";
 import path from "path";
+import https from "https";
 import { fileURLToPath } from "url";
+import { WebSocketServer } from "ws";
+
 
 //project modules
 import * as authRouter from './routes/auth.js';
 import * as feedRouter from "./routes/feed.js";
-import * as webSocketRouter from "./routes/webSocket.js";
+import * as webSocketController from "./controllers/webSocket.js";
 import * as config from './config.js';
 
 
 const numCPUs = os.cpus().length;
-export const { app, getWss, applyTo } = expressWs(express());
 export let defilamaStatus = false;
 
 //core
@@ -32,10 +33,17 @@ if (cluster.isPrimary) {
     });
 } 
 else {
+
+    const app = express();
+    const options = {
+      key: fs.readFileSync("privatekey.pem"),
+      cert: fs.readFileSync("certificate.pem"),
+    };
+    const server = https.createServer(options, app);
+    const wss = new WebSocketServer({ path: "/socket.io", server });
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
-        flags: "a",
-    });
+    const accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {flags: "a",});
+
     app.use(morgan("combined", { stream: accessLogStream }));
     app.use(helmet());
     app.use(bodyParser.json());
@@ -46,21 +54,19 @@ else {
         res.setHeader("Access-Control-Allow-Credentials", true);
         next();
     });
-
-    app.use(webSocketRouter.router);
     app.use(authRouter.router);
     app.use(feedRouter.router);
-
     app.use(function(error, req, res, next) {
       const status = error.statusCode || 500;
       res.status(status).json({ message: error.message});
     });
+    webSocketController.socketConnection(wss);
 
     mongoose.set("strictQuery", true);
     mongoose
       .connect(config.MONGODB_CONNECTION, {dbName:config.MONGODB_DATABASE_NAME})
       .then((result) => {
-        app.listen(config.PORT || 3000);
+        server.listen(config.PORT || 3000);
       })
       .catch((err) => {
         console.log(err);
