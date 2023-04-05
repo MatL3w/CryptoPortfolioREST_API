@@ -22,6 +22,15 @@ In application you can create your account and store information about your cryp
 - [GET /getassets](#get-getassets)
 - [GET /getasset](#get-getasset)
 
+# Feature History
+Below are all added feature in chronogical order with detailed description:
+ - User can creat account, **log in, log out, change email and password**, all data are stored in MongoDb database, used mongoose in order to easily manipulate datas.
+    To **authentication is used JWT**. To logout is used blacklist for JWT also stored in MongoDB.
+ - When User has account then he can store his assets in application. Main feature of application is present to User all avaliable data about his assets. User only has to     insert two things: **nameTag of assets, and quantity**. All additional data about user's token are fetched from https://defillama.com/docs/api. User can **add,update,delete,fetch** data about his assets. All functionality inlcuding asset's data transfer based on **REST API**. This application is only **backend part of all project**. In future probbably will be created front-end part of project.
+ - **Multithread** functionality was added to application. Now Main thread create **cluster.fork** for all CPU cores and manage them. This opertaion provide better performance for handling a lot of request and isolate encountered errors from crashing all aplication.
+ -  **Websocket** feature was added to provide still connection between users and apllication. In this way application can continously inform user about accessibility to defillama's informations which are crucial for utility this application.
+ 
+
 # Technologies
 Projest is created with:
 * nodejs version: 19.8.1
