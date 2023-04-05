@@ -6,8 +6,10 @@ import expressWs from "express-ws";
 import cluster from "cluster";
 import os from "os";
 import helmet from "helmet";
+import morgan from "morgan"
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
 //project modules
 import * as authRouter from './routes/auth.js';
@@ -30,6 +32,7 @@ if (cluster.isPrimary) {
     });
 } 
 else {
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
         flags: "a",
     });
