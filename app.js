@@ -33,14 +33,13 @@ if (cluster.isPrimary) {
     });
 } 
 else {
-
     const app = express();
     const options = {
       key: fs.readFileSync("privatekey.pem"),
       cert: fs.readFileSync("certificate.pem"),
     };
     const server = https.createServer(options, app);
-    const wss = new WebSocketServer({ path: "/socket.io", server });
+    const wss = new WebSocketServer({ path: "/socket", server });
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {flags: "a",});
 
