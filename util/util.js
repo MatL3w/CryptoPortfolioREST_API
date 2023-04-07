@@ -5,10 +5,10 @@ export const getTokenInfo = async (name,quantity)=>{
     };
     let found;
     await fetch("https://api.llama.fi/protocols", {
-    method: "GET",
-    headers: {
-        "Content-Type": "application/json",
-    },
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
     })
     .then((result) => result.json())
     .then((data) => {

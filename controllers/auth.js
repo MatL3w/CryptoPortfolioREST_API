@@ -35,6 +35,7 @@ export const signup = async (req, res, next) => {
   }
 };
 export const signin = async (req, res, next) => {
+  console.log('lol');
   const errors = validationResult(req);
   try {
     util.checkForValidationErrors(errors, "Validation input data error");

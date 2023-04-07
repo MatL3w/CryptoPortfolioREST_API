@@ -8,7 +8,7 @@ import helmet from "helmet";
 import morgan from "morgan"
 import fs from "fs";
 import path from "path";
-import https from "https";
+import http from "http";
 import { fileURLToPath } from "url";
 import { WebSocketServer } from "ws";
 
@@ -38,7 +38,7 @@ else {
       key: fs.readFileSync("privatekey.pem"),
       cert: fs.readFileSync("certificate.pem"),
     };
-    const server = https.createServer(options, app);
+    const server = http.createServer(app);
     const wss = new WebSocketServer({ path: "/socket", server });
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {flags: "a",});

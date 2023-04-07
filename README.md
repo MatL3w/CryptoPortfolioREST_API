@@ -34,6 +34,7 @@ Below are all added feature in chronogical order with detailed description:
  - **Helmet.js** was added to increase security.
  - **Morgan**  to logging 
  - Changed uncrypted transimission to encrypted using **HTTPS and WSS**. The key and certificate are Intentionally included.
+ - i have to remove encryption transmission because with selfsigned certificate are problems to testing this backend application with its front-end part using webbrowser
 # Technologies
 Projest is created with:
 * nodejs version: 19.8.1
