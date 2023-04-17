@@ -67,7 +67,7 @@ export const signin = async (req, res, next) => {
         expiresIn: config.JWT_EXPIRES_TIME,
       }
     );
-    res.status(200).json({ token: token, userId: user._id.toString() });
+    res.status(200).json({ token: token, userName: user.name.toString() });
   } catch (err) {
     next(err);
     return;
