@@ -21,7 +21,7 @@ router.delete("/asset",
     feedController.deleteAsset
 );
 
-router.get("/getasset",
+router.get("/asset",
     header("Authorization").not().isEmpty().isJWT(),
     Authentication.isAuth,
     feedController.getAssets
