@@ -223,7 +223,7 @@ The example of response body:
 }
 ```
 
-## POST /upsertasset
+## POST /asset
 
 This endpoint allow you to insert or update asset.
 
@@ -256,7 +256,7 @@ The example of response body:
 }
 ```
 
-## DELETE /deleteasset
+## DELETE /asset
 
 This endpoint allow you to delete asset.
 
@@ -288,7 +288,7 @@ The example of response body:
 }
 ```
 
-## GET /getassets
+## GET /asset
 
 This endpoint allow you to fetch all user assets.
 
@@ -335,52 +335,6 @@ The example of response body:
      "userId": "64245b3721900e5d85faf0e0"
 }
 ```
-
-## GET /getasset
-
-This endpoint allow you to fetch only one asset.
-
-The request should contain following header:
-```
-Authorization : JWT 
-```
-
-The request body should contain assetNameTag.
-
-Example request body:
-```
-{
-    "assetNameTag": "QiDao",
-}
-```
-
-
-- contain Validation of input data
-- check validation of JWT
-- check for existence of token
-
-The example of response body:
-```
-{
-    "asset": {
-        "nameTag": "qidao",
-        "quantity": 2.123123,
-        "address": "polygon:0x580a84c73811e1839f75d86d75d88cca0c241ff4",
-        "name": "QiDao",
-        "tvl": 60040531.19524268,
-        "category": "CDP",
-        "symbol": "QI",
-        "logo": "https://icons.llama.fi/qidao.jpg",
-        "url": "https://app.mai.finance",
-        "mcap": 6262533.986094965,
-        "price": 0.075719,
-        "totalValue": 0.160760750437
-    },
-    "userId": "64245b3721900e5d85faf0e0"
-}
-```
-
-
 ## WS /socket
 
 This endpoint allow you establish websocket connection.
